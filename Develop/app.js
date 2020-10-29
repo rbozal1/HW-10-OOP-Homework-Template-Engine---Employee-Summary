@@ -13,23 +13,23 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
-
 const teamHTML = [];
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 function promptMember() {
-    console.log("It is time to build you team!")
-    return inquirer.prompt([
+    console.log("It is time to build A-team!")
+    inquirer.prompt([
     {
         type:"input",
         name:"managerName",
         message: "What is your manager's name .? "
     },
-    
     {
         type:"input",
         name:"managerId",
-        message: "What is your manager's Id? "
+        message: "What is your manager's ID? "
     },
     {
         type: "input",
@@ -39,7 +39,7 @@ function promptMember() {
 
     {
         type: "input",
-        name: "managerOfficeNo",
+        name: "OfficeNumber",
         message: "What is your manager's Office Number? "
     },
 ])
@@ -48,16 +48,33 @@ function promptMember() {
     data.managerName,
     data.managerId,
     data.managerEmail,
-    data.managerOfficeNo
+    data.OfficeNumber
   );
-   teamHTML.push(manager);
-   console.log(`${data.managerName} has been added!`);
-   teamMember = fs.readFileSync("templates/manager.html");
-     
-
-      addAnother();
+  console.log(`${data.managerName} has been added!`);
+  teamHTML.push(manager);
+  addAnother();
     });
-} 
+}; 
+
+function addAnother() {
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          message: "Chose the role of your next team member",
+          name: "choice",
+          choices: ["Add Engineer", "Add Intern", "Done Adding"],
+        },
+      ]).then(function (data) {
+        if (data.choice === "Add Engineer") {
+          addEngineer();
+        } else if (data.choice === "Add Intern") {
+          addIntern();
+        } else (outputTeam());
+        
+      });
+    };
+
 function addEngineer() {
     console.log("Lets add your Engineer");
   
@@ -94,13 +111,11 @@ function addEngineer() {
         );
         teamHTML.push(engineer);
         console.log(`${data.engineerName} has been added!`);
-        teamMember = fs.readFileSync("templates/engineer.html");
-        
         addAnother();
       });
-  }
+    }
   
-  function addIntern() {
+function addIntern() {
     console.log("Lets add your Intern");
   
     inquirer
@@ -135,33 +150,10 @@ function addEngineer() {
         );
         teamHTML.push(intern);
         console.log(`${data.internName} has been added!`);
-        teamMember = fs.readFileSync("templates/intern.html");
-        
-        // teamHTML.push(intern);
         addAnother();
       });
   }
-  
-  function addAnother() {
-    inquirer
-      .prompt([
-        {
-          type: "list",
-          message: "Chose the role of your next team member",
-          name: "choice",
-          choices: ["Add Engineer", "Add Intern", "Done Adding"],
-        },
-      ]).then(function (data) {
-        if (data.choice === "Add Engineer") {
-          addEngineer();
-        } else if (data.choice === "Add Intern") {
-          addIntern();
-        } else (outputTeam());
-        
-      });
-    };
-
-    function outputTeam() {
+function outputTeam() {
         if (!fs.existsSync(OUTPUT_DIR)) {
             fs.mkdirSync(OUTPUT_DIR)
         }
