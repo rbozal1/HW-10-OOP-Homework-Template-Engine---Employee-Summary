@@ -118,5 +118,9 @@ The project must generate a `team.html` page in the `output` directory, that dis
   * ID
 
   * Role-specific property (School, link to GitHub profile, or office number)
-
+  
+  ![image](https://user-images.githubusercontent.com/49447293/97644959-0e88f900-1a22-11eb-84ad-2ef6ee008018.png)
+ 
+ ### Video link 
+ `https://www.youtube.com/watch?v=6QB4qE4BaqA&feature=youtu.be`
 
